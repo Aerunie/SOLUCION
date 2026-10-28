@@ -33,6 +33,11 @@ public class DatabaseConnection {
         if (url == null) {
             throw new SQLException("Falta configurar la base de datos (variables DB_URL, DB_USER y DB_PASSWORD).");
         }
-        return DriverManager.getConnection(url, user, pass);
+   try {
+       Class.forName("com.mysql.cj.jdbc.Driver");
+   } catch (ClassNotFoundException e) {
+       throw new SQLException("No se encontró el driver de MySQL: " + e.getMessage(), e);
+   }
+   return DriverManager.getConnection(url, user, pass);
     }
 }
